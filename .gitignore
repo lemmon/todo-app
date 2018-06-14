@@ -1,0 +1,4 @@
+.ftpcurl
+dist/
+node_modules/
+develop/

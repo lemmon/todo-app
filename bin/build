@@ -1,0 +1,13 @@
+#!/bin/sh
+cd "$(dirname $0)/.."
+BASE_DIR=`pwd`
+
+#rm -rf dist/
+
+mkdir -pv dist
+mkdir -pvm 777 dist/store
+box build -v
+mv dist/index.phar dist/index.php
+cp www/config.php dist
+cp www/.htaccess dist
+browserify src/app/index.js -t yo-yoify -t [ babelify --presets [ env minify ] ] | bundle-collapser | uglifyjs > dist/app.js

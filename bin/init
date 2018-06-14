@@ -1,0 +1,5 @@
+#!/bin/sh
+cd "$(dirname $0)/.."
+BASE_DIR=`pwd`
+
+ln -svn ../src/php/index.php develop/index.php

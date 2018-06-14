@@ -1,0 +1,7 @@
+{
+    "directories": ["src/php"],
+    "main": "src/php/index.php",
+    "output": "dist/index.phar",
+    "stub": true,
+    "shebang": false
+}
