@@ -33,15 +33,18 @@ function _render() {
               onsubmit=${createTask}
             >
               <input
+                class="input ba b-black-10 p1"
                 type="text"
                 name="task"
-                placeholder="Start here\u2026"
+                placeholder="${state.list.entries.length && `Add another task\u2026` || `Start here\u2026`}"
               />
             </form>
           </div>
-          <div>
-            ${state.list.entries.map(_renderTask)}
-          </div>
+          ${state.list.entries.length && html`
+            <div>
+              ${state.list.entries.map(_renderTask)}
+            </div>
+          ` || ``}
         </div>
       </div>
 
@@ -63,8 +66,9 @@ function _renderTask(task, i) {
           }}
         />
       </div>
-      <div class="p05 span1">
+      <div class="span1">
         <div
+          class="p05"
           ondblclick=${e => {
             e.preventDefault()
             morph(e.target, html`
@@ -80,6 +84,7 @@ function _renderTask(task, i) {
                   }}
                 >
                   <input
+                    class="input p05"
                     type="text"
                     name="task"
                     value=${task.name}

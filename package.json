@@ -11,8 +11,9 @@
     "yo-yoify": "^4.3.0"
   },
   "scripts": {
-    "w:app": "watchify src/app -o www/app.js --verbose",
-    "w": "npm run w:app"
+    "w:css": "abrusco src/css -o develop/app.css --watch",
+    "w:app": "watchify src/app -o develop/app.js --verbose",
+    "w": "npm run w:css & npm run w:app"
   },
   "eslintConfig": {
     "parserOptions": {
