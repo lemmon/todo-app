@@ -71,6 +71,10 @@ function _renderTask(task, i) {
                     e.preventDefault()
                     const form = e.target
                     const name = form.task.value
+                    if (!name) {
+                      render()
+                      return
+                    }
                     task.name = name
                     store.save()
                     render()
@@ -118,13 +122,17 @@ function _renderTask(task, i) {
 function createTask(e) {
   e.preventDefault()
   const form = e.target
-  const name = form.task.value
+  const name = sanitizeName(form.task.value)
   if (!name) {
     return
   }
   state.list.entries.push({ name })
   render()
   store.save()
+}
+
+function sanitizeName(name) {
+  return name.replace(/\s+/g, ' ').trim()
 }
 
 render()
