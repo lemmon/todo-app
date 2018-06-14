@@ -70,7 +70,7 @@ function _renderTask(task, i) {
                   onsubmit=${e => {
                     e.preventDefault()
                     const form = e.target
-                    const name = form.task.value
+                    const name = sanitizeName(form.task.value)
                     if (!name) {
                       render()
                       return
