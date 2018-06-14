@@ -41,20 +41,27 @@ function _render() {
 function _renderTask(task, i) {
   return html`
     <div class="row p05 bb b-black-10">
-      <div class="p05">
-        <input
-          type="checkbox"
-          ${task.completed && `checked` || ``}
-          onclick=${e => {
-            const input = e.target
-            task.completed = input.checked
-            store.save()
-          }}
-        />
+      <div class="">
+        <div class="checkbox p05">
+          <input
+            type="checkbox"
+            ${task.completed && `checked` || ``}
+            onclick=${e => {
+              const input = e.target
+              task.completed = input.checked
+              store.save()
+              morph(input.closest('.row'), _renderTask(task, i))
+            }}
+          />
+          <svg class="image" width="16" height="16" viewBox="0 0 16 16">
+            <rect x=2 y=2 width=12 height=12 rx=2 ry=2 stroke=black fill=transparent />
+            <rect class="checkbox-checked" x=4 y=4 width=8 height=8 rx=1 ry=1 />
+          </svg>
+        </div>
       </div>
       <div class="span1">
         <div
-          class="p05"
+          class="p05 ${task.completed && `st` || ``}"
           ondblclick=${e => {
             e.preventDefault()
             morph(e.target, html`
@@ -87,8 +94,9 @@ function _renderTask(task, i) {
           }}
         >${task.name}</div>
       </div>
-      <div class="p05">
-        <a
+      <div class="self-center">
+        <div
+          class="p05 cursor-pointer"
           href="#"
           onclick=${e => {
             e.preventDefault()
@@ -96,7 +104,12 @@ function _renderTask(task, i) {
             store.save()
             render()
           }}
-        >x</a>
+        >
+          <svg class="image" width="16" height="16" viewBox="0 0 16 16">
+            <line x1=4 y1=4 x2=12 y2=12 stroke=black />
+            <line x1=4 y2=4 x2=12 y1=12 stroke=black />
+          </svg>
+        </div>
       </div>
     </div>
   `
