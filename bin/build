@@ -2,12 +2,13 @@
 cd "$(dirname $0)/.."
 BASE_DIR=`pwd`
 
-#rm -rf dist/
+rm -rf dist/
 
 mkdir -pv dist
 mkdir -pvm 777 dist/store
 box build -v
 mv dist/index.phar dist/index.php
-cp www/config.php dist
-cp www/.htaccess dist
+cp develop/config.php dist
+cp develop/.htaccess dist
+abrusco src/css -o dist/app.css --minify
 browserify src/app/index.js -t yo-yoify -t [ babelify --presets [ env minify ] ] | bundle-collapser | uglifyjs > dist/app.js

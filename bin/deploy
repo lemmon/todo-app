@@ -2,6 +2,9 @@
 cd "$(dirname $0)/.."
 BASE_DIR=`pwd`
 
+#bin/build
+
 ftpcurl=$(<.ftpcurl)
 curl -T dist/app.js $ftpcurl
+curl -T dist/app.css $ftpcurl
 curl -T dist/index.php $ftpcurl
