@@ -1,25 +1,11 @@
 const html = require('nanohtml');
 const morph = require('nanomorph');
 
-const state = {
-  list: {
-    entries: window.list || {},
-  },
-}
+const state = require('./state')
+const store = require('./store')
 
 function render() {
   morph(document.body, _render())
-}
-
-function save() {
-  fetch(location.href, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(state.list.entries),
-  })
 }
 
 function _render() {
@@ -62,7 +48,7 @@ function _renderTask(task, i) {
           onclick=${e => {
             const input = e.target
             task.completed = input.checked
-            save()
+            store.save()
           }}
         />
       </div>
@@ -79,8 +65,8 @@ function _renderTask(task, i) {
                     const form = e.target
                     const name = form.task.value
                     task.name = name
+                    store.save()
                     render()
-                    save()
                   }}
                 >
                   <input
@@ -107,8 +93,8 @@ function _renderTask(task, i) {
           onclick=${e => {
             e.preventDefault()
             state.list.entries.splice(i, 1)
+            store.save()
             render()
-            save()
           }}
         >x</a>
       </div>
@@ -125,7 +111,7 @@ function createTask(e) {
   }
   state.list.entries.push({ name })
   render()
-  save()
+  store.save()
 }
 
 render()
