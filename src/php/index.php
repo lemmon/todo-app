@@ -37,19 +37,27 @@ if (!file_exists($file)) {
 // load the list
 $json = file_get_contents($file);
 $data = json_decode($json, TRUE);
-$list = $data['list'] ?? [];
 
 // save list
 switch (HTTP['method']) {
   case 'POST':
-    $list = json_decode(file_get_contents('php://input'));
-    file_put_contents($file, json_encode(array_replace($data, [
-      'list' => $list,
-    ]), JSON_PRETTY_PRINT));
+    $list = json_decode(file_get_contents('php://input'), TRUE);
+    file_put_contents($file, json_encode(array_filter(array_replace($data, [
+      'name' => $list['name'] ?? NULL,
+      'entries' => $list['entries'] ?? NULL,
+      'list' => NULL,
+    ])), JSON_PRETTY_PRINT));
     ok($list);
 }
 
 // return data
+$list = array_intersect_key($data, [
+  'name' => TRUE,
+  'entries' => TRUE,
+]);
+if (isset($data['list']) and empty($data['entries'])) { // legacy store
+  $list['entries'] = $data['list'];
+}
 switch (HTTP['accept']) {
   case 'application/json':
     json($list);
@@ -64,7 +72,7 @@ function ok($data = NULL)
 {
   json([
     'success' => TRUE,
-    'data' => $data,
+    #'data' => $data,
   ]);
   exit;
 }

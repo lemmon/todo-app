@@ -10,13 +10,53 @@ function render() {
 
 function _render() {
   return html`
-    <body class="col justify-center">
+    <body>
 
       <div>
         <div class="max48 mx">
+          <div class="h2 lh2 fw900">
+            <div
+              class="p1"
+              ondblclick=${e => {
+                e.preventDefault()
+                morph(e.target, html`
+                  <div>
+                    <form
+                      onsubmit=${e => {
+                        e.preventDefault()
+                        const form = e.target
+                        const name = sanitizeName(form.name.value)
+                        if (!name) {
+                          render()
+                          return
+                        }
+                        state.list.name = name
+                        store.save()
+                        render()
+                      }}
+                    >
+                      <input
+                        class="input p1"
+                        type="text"
+                        name="name"
+                        value=${state.list.name}
+                        onblur=${e => {
+                          render()
+                        }}
+                      />
+                    </form>
+                  </div>
+                `)
+                const input = e.target.querySelector('input')
+                input.select()
+                input.focus()
+              }}
+            >${state.list.name || `untitled list`}</div>
+          </div>
           <div>
             <form
               onsubmit=${createTask}
+              novalidate
             >
               <input
                 class="input ba b-black-10 p1"

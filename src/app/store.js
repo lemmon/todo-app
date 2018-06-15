@@ -7,6 +7,6 @@ module.exports.save = () => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(state.list.entries),
+    body: JSON.stringify(state.list),
   })
 }
