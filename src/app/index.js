@@ -32,6 +32,7 @@ function _render() {
                         }
                         state.list.name = name
                         store.save()
+                        updateTitle()
                         render()
                       }}
                     >
@@ -159,6 +160,10 @@ function _renderTask(task, i) {
   `
 }
 
+function updateTitle() {
+  document.title = state.list.name
+}
+
 function createTask(e) {
   e.preventDefault()
   const form = e.target
@@ -175,4 +180,5 @@ function sanitizeName(name) {
   return name.replace(/\s+/g, ' ').trim()
 }
 
+updateTitle()
 render()
