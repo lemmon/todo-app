@@ -1,6 +1,4 @@
-const state = require('./state')
-
-module.exports.save = () => {
+module.exports.save = (state) => {
   fetch(location.href, {
     method: 'POST',
     headers: {
